@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram_copy/models/Post.dart';
+import 'package:instagram_copy/mock/posts_mock.dart';
 import 'package:instagram_copy/models/profile.dart';
+import 'package:instagram_copy/widgets/carrousel_images.dart';
 import 'package:instagram_copy/widgets/story_list.dart';
 import 'package:instagram_copy/mock/profile_mock.dart';
+import 'package:instagram_copy/models/post.dart';
 
 class FeedScreen extends StatefulWidget {
   @override
@@ -12,10 +14,6 @@ class FeedScreen extends StatefulWidget {
 
 class _FeedScreenState extends State<FeedScreen> {
   Profile profile = profileTest;
-
-  Feed(Profile profile) {
-    this.profile = profile;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,65 +34,16 @@ class _FeedScreenState extends State<FeedScreen> {
 
   getListPosts() {
     final children = <Widget>[];
-    List<Post> posts = Post.getPostsTest();
+    List<Post> posts = postsTest;
     for (var i = 0; i < posts.length; i++) {
       Post post = posts[i];
-      children.add(getBox(post));
+      children.add(CarouselImages(imgList: post.images));
     }
 
     return Expanded(
       child: ListView(
         scrollDirection: Axis.vertical,
         children: children,
-      ),
-    );
-  }
-
-  Widget getBox(Post post) {
-    return Container(
-      margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
-      child: Column(
-        children: [
-          getHeader(post),
-          Image(image: NetworkImage(post.mediUrl), fit: BoxFit.cover),
-          Row(
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width - 39,
-                margin: EdgeInsets.fromLTRB(5, 10, 0, 10),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 35,
-                      child: Icon(Icons.favorite_border, color: Colors.white),
-                    ),
-                    Container(
-                      width: 35,
-                      child: Icon(Icons.comment, color: Colors.white),
-                    ),
-                    Container(
-                      width: 35,
-                      child: Icon(Icons.near_me_outlined, color: Colors.white),
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                height: 40,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Padding(
-                        padding: EdgeInsets.only(right: 10),
-                        child:
-                            Icon(Icons.bookmark_border, color: Colors.white)),
-                  ],
-                ),
-              )
-            ],
-          ),
-        ],
       ),
     );
   }
