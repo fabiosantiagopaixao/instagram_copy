@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:instagram_copy/mock/profile_mock.dart';
 import 'package:instagram_copy/models/post.dart';
 import 'package:instagram_copy/models/profile.dart';
 import 'package:instagram_copy/screens/posts_screen.dart';
+import 'package:instagram_copy/widgets/tab_profile.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MyProfileScreen extends StatefulWidget {
@@ -48,8 +50,9 @@ class _MyProfileScreenState extends State<MyProfileScreen>
           getProfilePhotoData(),
           getDataProfile(),
           getButtonEditProfile(),
-          getTabViewProfile(),
-          _selectedTabIndex == 0 ? getTabViewGrid() : getTabViewMarkes()
+          Expanded(
+              child: TabProfile()
+          ),
         ],
       ),
     );
@@ -59,7 +62,7 @@ class _MyProfileScreenState extends State<MyProfileScreen>
     return Row(
       children: [
         getPhotoProfile(true),
-        getBoxsActivitys(),
+        getBoxs(),
       ],
     );
   }
@@ -113,7 +116,7 @@ class _MyProfileScreenState extends State<MyProfileScreen>
     );
   }
 
-  getBoxsActivitys() {
+  getBoxs() {
     return Container(
       margin: EdgeInsets.only(left: 40),
       child: Row(
@@ -216,142 +219,5 @@ class _MyProfileScreenState extends State<MyProfileScreen>
         ),
       ),
     );
-  }
-
-  getTabViewProfile() {
-    return Container(
-      margin: EdgeInsets.only(top: 20),
-      child: Row(
-        children: [
-          GestureDetector(
-            onTap: () => _onItemTabTapped(0),
-            child: Container(
-              width: MediaQuery.of(context).size.width / 2,
-              height: 50,
-              child: Center(
-                child: Icon(Icons.apps_outlined, color: Colors.white),
-              ),
-              decoration: BoxDecoration(
-                  border: Border(
-                      bottom: BorderSide(
-                          width: 2.0,
-                          color: _selectedTabIndex == 0
-                              ? Colors.white
-                              : Colors.black))),
-            ),
-          ),
-          GestureDetector(
-            onTap: () => _onItemTabTapped(1),
-            child: Container(
-              width: MediaQuery.of(context).size.width / 2,
-              height: 50,
-              child: Center(
-                child: Icon(Icons.assignment_ind, color: Colors.white),
-              ),
-              decoration: BoxDecoration(
-                  border: Border(
-                      bottom: BorderSide(
-                          width: 2.0,
-                          color: _selectedTabIndex == 1
-                              ? Colors.white
-                              : Colors.black))),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  getTabViewGrid() {
-    final children = <Widget>[];
-    List<Post> posts = Post.getPostsTest();
-    children.add(getLineBox(posts));
-    return Expanded(
-      child: ListView(
-        scrollDirection: Axis.vertical,
-        children: children,
-      ),
-    );
-  }
-
-  Widget getLineBox(List<Post> posts) {
-    final elements = <Widget>[];
-    double sizeBox = (MediaQuery.of(context).size.width - 4) / 3;
-    posts.asMap().forEach((key, value) {
-      print("Key ${key}");
-      elements.add(Center(
-        child: GestureDetector(
-          onTap: () => _openScreenPosts(),
-          child: Container(
-              margin: key == 1
-                  ? EdgeInsets.fromLTRB(2, 0, 2, 0)
-                  : EdgeInsets.all(0),
-              height: sizeBox,
-              width: sizeBox,
-              color: Colors.white24,
-              child: Image(
-                  image: NetworkImage(value.mediUrl), fit: BoxFit.fitHeight)),
-        ),
-      ));
-    });
-
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: elements,
-      ),
-    );
-  }
-
-  getTabViewMarkes() {
-    return SingleChildScrollView(
-      child: Container(
-        margin: EdgeInsets.only(top: 50),
-        child: Center(
-          child: Column(
-            children: [
-              Icon(
-                Icons.assignment_ind,
-                color: Colors.white,
-                size: 100,
-              ),
-              Text(
-                "Photos and Videos of You",
-                style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 20),
-                width: MediaQuery.of(context).size.width -
-                    (MediaQuery.of(context).size.width / 3),
-                child: Text(
-                  "When people ta you in photos and videos, they'll appear here.",
-                  style: TextStyle(fontSize: 16, color: Colors.white54),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  _onItemTabTapped(int index) {
-    setState(() {
-      _selectedTabIndex = index;
-    });
-  }
-
-  void _openScreenPosts() async {
-    try {
-      print("Open Screen Posts");
-      Navigator.pop(context, PostsScreen());
-    } catch (e) {
-      print(e);
-    }
   }
 }
