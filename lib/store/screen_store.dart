@@ -41,7 +41,6 @@ abstract class _ScreenStore with Store {
   void selectScreen(int screenIndex) {
     selectedScreen = screenIndex;
     currentState = SCREENS[screenIndex];
-    print("Screen selected ${selectedScreen}");
   }
 }
 
@@ -54,7 +53,6 @@ extension ScreenModeWidget on ScreenMode {
     Widget widget = _getDefaultAppBar("Name");
     switch (this) {
       case ScreenMode.FEED:
-        print("Screen Feed");
         widget = AppBarCustom(Constants.FEED);
         break;
       case ScreenMode.SEARCH:
@@ -67,7 +65,6 @@ extension ScreenModeWidget on ScreenMode {
         widget = _getDefaultAppBar("Shop");
         break;
       case ScreenMode.MY_PROFILE:
-        print("Screen Profile");
         widget = AppBarCustom(Constants.MY_PROFILE);
         break;
       case ScreenMode.PROCESSING:
