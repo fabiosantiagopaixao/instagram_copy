@@ -1,74 +1,74 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram_copy/models/Post.dart';
-import 'package:instagram_copy/models/profile.dart';
-import 'package:instagram_copy/widgets/story_list.dart';
-import 'package:instagram_copy/mock/profile_mock.dart';
+import 'package:instagram_copy/mock/posts_mock.dart';
+import 'package:instagram_copy/models/post.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 class PostsScreen extends StatefulWidget {
+
+  PostsScreen({Key? key, this.indexScroll}) : super(key: key);
+
+  int? indexScroll;
+
   @override
   _PostsScreenState createState() => _PostsScreenState();
 }
 
 class _PostsScreenState extends State<PostsScreen> {
-  Profile profile = profileTest;
+  late AutoScrollController _controller;
+  List<Post> _posts = postsTest;
+  final _scrollDirection = Axis.vertical;
 
-  Feed(Profile profile) {
-    this.profile = profile;
+  @override
+  void initState() {
+    super.initState();
+    _controller = AutoScrollController(
+        viewportBoundaryGetter: () =>
+            Rect.fromLTRB(0, 0, 0, MediaQuery
+                .of(context)
+                .padding
+                .bottom),
+        axis: _scrollDirection);
+    _scrollToIndex();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:
-          AppBar(title: Text("Posts", style: TextStyle(color: Colors.white))),
-      body: Container(
-        height: 500,
-        width: 500,
-        color: Colors.red,
-      ),
-    );
-  }
-
-  getPostsScreen() {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      child: Column(
-        children: [
-          StoryList(profile.storys),
-          getListPosts(),
-        ],
-      ),
+      AppBar(title: Text('Posts', style: TextStyle(color: Colors.white))),
+      body: getListPosts(),
     );
   }
 
   getListPosts() {
     final children = <Widget>[];
-    List<Post> posts = Post.getPostsTest();
-    for (var i = 0; i < posts.length; i++) {
-      Post post = posts[i];
-      children.add(getBox(post));
+    for (var i = 0; i < _posts.length; i++) {
+      children.add(_getRow(i, _posts[i]));
     }
 
-    return Expanded(
-      child: ListView(
-        scrollDirection: Axis.vertical,
-        children: children,
-      ),
+    return ListView(
+      scrollDirection: _scrollDirection,
+      controller: _controller,
+      children: children,
     );
   }
 
-  Widget getBox(Post post) {
-    return Container(
+  Widget _getRow(int index, Post post) {
+    Container container = Container(
       margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
       child: Column(
         children: [
-          getHeader(post),
-          Image(image: NetworkImage(post.mediUrl), fit: BoxFit.cover),
+          _getHeader(post),
+          // TODO: fix this
+          //Image(image: NetworkImage(post.mediUrl), fit: BoxFit.cover),
           Row(
             children: [
               Container(
-                width: MediaQuery.of(context).size.width - 39,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width - 39,
                 margin: EdgeInsets.fromLTRB(5, 10, 0, 10),
                 child: Row(
                   children: [
@@ -96,7 +96,7 @@ class _PostsScreenState extends State<PostsScreen> {
                     Padding(
                         padding: EdgeInsets.only(right: 10),
                         child:
-                            Icon(Icons.bookmark_border, color: Colors.white)),
+                        Icon(Icons.bookmark_border, color: Colors.white)),
                   ],
                 ),
               )
@@ -105,9 +105,20 @@ class _PostsScreenState extends State<PostsScreen> {
         ],
       ),
     );
+    return _wrapScrollTag(index: index, child: container);
   }
 
-  getHeader(Post post) {
+  Widget _wrapScrollTag({required int index, required Widget child}) {
+    return AutoScrollTag(
+      key: ValueKey(index),
+      controller: _controller,
+      index: index,
+      child: child,
+      highlightColor: Colors.black.withOpacity(0.1),
+    );
+  }
+
+  _getHeader(Post post) {
     return Row(
       children: [
         Container(
@@ -132,7 +143,10 @@ class _PostsScreenState extends State<PostsScreen> {
         ),
         Container(
           height: 40,
-          width: MediaQuery.of(context).size.width - 79,
+          width: MediaQuery
+              .of(context)
+              .size
+              .width - 79,
           child: Padding(
             padding: EdgeInsets.fromLTRB(5, 5, 0, 0),
             child: Column(
@@ -141,7 +155,7 @@ class _PostsScreenState extends State<PostsScreen> {
               children: [
                 Text(post.username,
                     style: TextStyle(color: Colors.white, fontSize: 14)),
-                Text(post.location ?? "",
+                Text(post.location ?? '',
                     style: TextStyle(color: Colors.white, fontSize: 12)),
               ],
             ),
@@ -161,5 +175,10 @@ class _PostsScreenState extends State<PostsScreen> {
         )
       ],
     );
+  }
+
+  Future _scrollToIndex() async {
+    await _controller.scrollToIndex(widget.indexScroll ?? 0,
+    preferPosition: AutoScrollPosition.begin);
   }
 }
