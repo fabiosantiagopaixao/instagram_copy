@@ -15,7 +15,6 @@ class TabScreen extends StatefulWidget {
 
 class _TabScreenState extends State<TabScreen> {
   final screenStore = ScreenStore();
-  Profile profile = profileTest;
 
   _onTap(int tab) {
     if (screenStore.selectedScreen != tab) {
