@@ -27,7 +27,8 @@ dependencies:
   flutter_mobx: ^2.0.0 # State Manager Compatibility
   provider: ^5.0.0 # Global Storage Access
   expansion_card: ^0.1.0
-
+  scroll_to_index: any
+  carousel_slider: ^4.0.0-nullsafety.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
