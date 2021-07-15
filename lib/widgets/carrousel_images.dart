@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram_copy/widgets/image_network.dart';
 
 class CarouselImages extends StatefulWidget {
   const CarouselImages({Key? key, required this.imgList}) : super(key: key);
@@ -39,22 +40,14 @@ class _CarouselImagesState extends State<CarouselImages> {
                     _current = index;
                   });
                 }),
-            items: widget.imgList.map((item) => getImage(item, height)).toList(),
+            items: widget.imgList
+                .map(
+                    (item) => ImageNetWork(urlImage: item, heigthImage: height))
+                .toList(),
           ),
           getFooter()
         ],
       ),
-    );
-  }
-
-  Widget getImage(item, height) {
-    return Container(
-      child: Center(
-          child: Image.network(
-            item,
-            fit: BoxFit.cover,
-            height: height,
-          )),
     );
   }
 

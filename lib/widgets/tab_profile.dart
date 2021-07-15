@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:instagram_copy/mock/posts_mock.dart';
 import 'package:instagram_copy/models/post.dart';
 import 'package:instagram_copy/screens/posts_screen.dart';
+import 'package:instagram_copy/widgets/image_network.dart';
 
 class TabProfile extends StatefulWidget {
   const TabProfile({Key? key}) : super(key: key);
@@ -97,11 +98,11 @@ class _TabProfileState extends State<TabProfile> {
 
   Widget getBoxMultiple(Post post) {
     final children = <Widget>[];
-    children.add(Container(
-        height: 200,
-        width: 200,
-        child: Image(
-            image: NetworkImage(post.images[0]), fit: BoxFit.fitHeight)));
+    children.add(ImageNetWork(
+        urlImage: post.images[0],
+        fitImage: BoxFit.fitHeight,
+        heigthImage: 200,
+        widthImage: 200));
     if (post.images.length > 1) {
       children.add(Positioned(
         top: 8.0,
