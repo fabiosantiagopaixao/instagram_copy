@@ -30,6 +30,9 @@ dependencies:
   scroll_to_index: any
   carousel_slider: ^4.0.0-nullsafety.0
 
+  # A flutter library to show images from the internet and keep them in the cache directory.
+  cached_network_image: ^3.0.0
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
