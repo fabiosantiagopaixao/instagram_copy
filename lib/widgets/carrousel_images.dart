@@ -12,15 +12,43 @@ class CarouselImages extends StatefulWidget {
 }
 
 class _CarouselImagesState extends State<CarouselImages> {
-  int _current = 0;
+  int _currentIndex = 0;
+  String _currentLabel = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _currentLabel = '1/${widget.imgList.length}';
+  }
 
   @override
   Widget build(BuildContext context) {
     return Builder(
       builder: (context) {
-        return getCarrousell();
+        return getBox();
       },
     );
+  }
+
+  Widget getBox() {
+    final children = <Widget>[];
+    children.add(getCarrousell());
+    if (widget.imgList.length > 1) {
+      children.add(Positioned(
+        top: 20.0,
+        right: 20,
+        child: Container(
+          padding: EdgeInsets.fromLTRB(10, 4, 10, 4),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Color.fromRGBO(50, 50, 50, 0.8),
+          ),
+          child: Text(_currentLabel,
+              style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold)),
+        ),
+      ));
+    }
+    return Stack(children: children);
   }
 
   Widget getCarrousell() {
@@ -37,7 +65,8 @@ class _CarouselImagesState extends State<CarouselImages> {
                 enlargeCenterPage: false,
                 onPageChanged: (index, reason) {
                   setState(() {
-                    _current = index;
+                    _currentIndex = index;
+                    _currentLabel = '${index + 1}/${widget.imgList.length}';
                   });
                 }),
             items: widget.imgList
@@ -104,7 +133,7 @@ class _CarouselImagesState extends State<CarouselImages> {
             margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: _current == index ? Colors.blue : Colors.white54,
+              color: _currentIndex == index ? Colors.blue : Colors.white54,
             ),
           );
         }).toList(),
