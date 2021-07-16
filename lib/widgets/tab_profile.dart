@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:instagram_copy/mock/posts_mock.dart';
-import 'package:instagram_copy/models/post.dart';
 import 'package:instagram_copy/screens/posts_screen.dart';
-import 'package:instagram_copy/widgets/image_network.dart';
+import 'package:instagram_copy/widgets/gallery_images.dart';
 
 class TabProfile extends StatefulWidget {
   const TabProfile({Key? key}) : super(key: key);
@@ -27,101 +25,15 @@ class _TabProfileState extends State<TabProfile> {
         ),
         body: TabBarView(
           children: [
-            getTabViewGrid(),
-            getTabViewMarkes(),
+            GalleryImages(onTapFunction: openScreenPosts),
+            getTabViewMarks(),
           ],
         ),
       ),
     );
   }
 
-  getTabViewGrid() {
-    final children = <Widget>[];
-    List<Post> posts = postsTest;
-    int line = 0;
-    if (posts.length > 3) {
-      for (var i = 0; i < posts.length; i++) {
-        List<Post> newList = [];
-        if (i < posts.length) {
-          newList.add(posts[i]);
-        }
-        i++;
-        if (i < posts.length) {
-          newList.add(posts[i]);
-        }
-        i++;
-        if (i < posts.length) {
-          newList.add(posts[i]);
-        }
-        children.add(getLineBox(line, newList));
-        line++;
-      }
-    } else {
-      children.add(getLineBox(line, posts));
-    }
-
-    return ListView(
-      scrollDirection: Axis.vertical,
-      children: children,
-    );
-  }
-
-  Widget getLineBox(int line, List<Post> posts) {
-    final elements = <Widget>[];
-    double sizeBox = (MediaQuery.of(context).size.width - 4) / 3;
-    posts.asMap().forEach((key, value) {
-      elements.add(Center(
-        child: GestureDetector(
-          onTap: () => _openScreenPosts(
-              value.images[0], line == 0 ? key : (line * 2) + (line + key)),
-          child: Container(
-              margin: key == 1
-                  ? EdgeInsets.fromLTRB(2, 0, 2, 0)
-                  : EdgeInsets.all(0),
-              height: sizeBox,
-              width: sizeBox,
-              color: Colors.white24,
-              child: getBoxMultiple(value)),
-        ),
-      ));
-    });
-
-    return Container(
-      margin: EdgeInsets.only(bottom: 2),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: elements,
-      ),
-    );
-  }
-
-  Widget getBoxMultiple(Post post) {
-    final children = <Widget>[];
-    children.add(ImageNetWork(
-        urlImage: post.images[0],
-        fitImage: BoxFit.fitHeight,
-        heigthImage: 200,
-        widthImage: 200));
-    if (post.images.length > 1) {
-      children.add(Positioned(
-        top: 8.0,
-        left: 103.0,
-        child: Container(
-          height: 18,
-          width: 18,
-          child: Icon(
-            Icons.photo_library,
-            color: Colors.white,
-            size: 18.0,
-          ),
-        ),
-      ));
-    }
-    return Stack(children: children);
-  }
-
-  getTabViewMarkes() {
+  getTabViewMarks() {
     return SingleChildScrollView(
       child: Container(
         margin: EdgeInsets.only(top: 50),
@@ -157,9 +69,9 @@ class _TabProfileState extends State<TabProfile> {
     );
   }
 
-  void _openScreenPosts(String mediaUrl, int indexScroll) async {
+  void openScreenPosts(int indexScroll) {
     try {
-      print("Open Post ${indexScroll}");
+      print("Clicked");
       Navigator.push(
           context,
           MaterialPageRoute(

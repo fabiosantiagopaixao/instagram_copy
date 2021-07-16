@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_copy/enum/type_post.dart';
 import 'package:instagram_copy/mock/posts_mock.dart';
+import 'package:instagram_copy/mock/profile_mock.dart';
 import 'package:instagram_copy/models/post.dart';
+import 'package:instagram_copy/models/profile.dart';
+import 'package:instagram_copy/widgets/story_list.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 import 'carrousel_images.dart';
@@ -18,6 +21,7 @@ class ListPosts extends StatefulWidget {
 }
 
 class _ListPostsState extends State<ListPosts> {
+  Profile profile = profileTest;
   late AutoScrollController _controller;
   List<Post> _posts = postsTest;
   final _scrollDirection = Axis.vertical;
@@ -49,6 +53,7 @@ class _ListPostsState extends State<ListPosts> {
 
   getListPosts() {
     final children = <Widget>[];
+    children.add(StoryList(profile.storys));
     for (var i = 0; i < _posts.length; i++) {
       Post post = _posts[i];
       children.add(CarouselImages(post: post));

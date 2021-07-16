@@ -1,17 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class ImageNetWork extends StatefulWidget {
   const ImageNetWork(
       {Key? key,
       required this.urlImage,
-      this.heigthImage,
+      this.heightImage,
       this.widthImage,
       this.fitImage})
       : super(key: key);
   final String urlImage;
-  final double? heigthImage;
+  final double? heightImage;
   final double? widthImage;
   final BoxFit? fitImage;
 
@@ -26,47 +27,49 @@ class _ImageNetWorkState extends State<ImageNetWork> {
       imageUrl: widget.urlImage,
       imageBuilder: (context, imageProvider) => _containerCustom(),
       placeholder: (context, url) => _containerLoading(),
-      errorWidget: (context, url, error) => Icon(Icons.error),
+      errorWidget: (context, url, error) => const Icon(Icons.error),
     );
   }
 
   Widget _containerCustom() {
-    return widget.widthImage == null && widget.heigthImage == null
+    return widget.widthImage == null && widget.heightImage == null
         ? _containerImage()
-        : widget.widthImage == null && widget.heigthImage != null
+        : widget.widthImage == null && widget.heightImage != null
             ? _containerImageHeight()
             : _containerImageWidthHeight();
   }
 
   Widget _containerImage() {
-    return Center(
-      child: Image.network(
-        widget.urlImage,
-        fit: widget.fitImage ?? BoxFit.cover,
-      ),
+    return FadeInImage.memoryNetwork(
+      placeholder: kTransparentImage,
+      image: widget.urlImage,
+      fit: widget.fitImage ?? BoxFit.cover,
     );
   }
 
   Widget _containerImageHeight() {
-    return Image.network(
-      widget.urlImage,
+    return FadeInImage.memoryNetwork(
+      placeholder: kTransparentImage,
+      image: widget.urlImage,
       fit: widget.fitImage ?? BoxFit.cover,
-      height: widget.heigthImage,
+      height: widget.heightImage,
     );
   }
 
   Widget _containerImageWidthHeight() {
-    return Image.network(
-      widget.urlImage,
+    return FadeInImage.memoryNetwork(
+      placeholder: kTransparentImage,
+      image: widget.urlImage,
       fit: widget.fitImage ?? BoxFit.cover,
-      height: widget.heigthImage,
+      height: widget.heightImage,
       width: widget.widthImage,
     );
   }
 
   Widget _containerLoading() {
     return Container(
-      child: Center(child: CircularProgressIndicator(color: Colors.white24)),
+      alignment: Alignment.center,
+      child: const CircularProgressIndicator(color: Colors.white),
     );
   }
 }

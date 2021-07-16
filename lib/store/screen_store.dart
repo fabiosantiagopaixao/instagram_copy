@@ -6,6 +6,7 @@ import 'package:instagram_copy/models/contants.dart';
 import 'package:instagram_copy/models/profile.dart';
 import 'package:instagram_copy/screens/tabs/feed_screen.dart';
 import 'package:instagram_copy/screens/tabs/my_profile_screen.dart';
+import 'package:instagram_copy/screens/tabs/search_screen.dart';
 import 'package:instagram_copy/widgets/app_bar_custom.dart';
 import 'package:instagram_copy/widgets/loading_custom.dart';
 import "package:mobx/mobx.dart";
@@ -56,7 +57,7 @@ extension ScreenModeWidget on ScreenMode {
         widget = AppBarCustom(Constants.FEED);
         break;
       case ScreenMode.SEARCH:
-        widget = _getDefaultAppBar("Search");
+        widget = AppBarCustom(Constants.SEARCH);
         break;
       case ScreenMode.REELS:
         widget = _getDefaultAppBar("Reels");
@@ -81,7 +82,7 @@ extension ScreenModeWidget on ScreenMode {
         widget = FeedScreen();
         break;
       case ScreenMode.SEARCH:
-        widget = LoadingCustom(title: "Loading Search");
+        widget = SearchScreen();
         break;
       case ScreenMode.REELS:
         widget = LoadingCustom(title: "Loading Reels");

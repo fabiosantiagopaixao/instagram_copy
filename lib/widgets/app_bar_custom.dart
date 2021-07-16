@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:instagram_copy/mock/profile_mock.dart';
 import 'package:instagram_copy/models/contants.dart';
 import 'package:instagram_copy/models/profile.dart';
-import 'package:instagram_copy/store/screen_store.dart';
 
 class AppBarCustom extends StatelessWidget {
   Profile profile = profileTest;
@@ -20,7 +19,9 @@ class AppBarCustom extends StatelessWidget {
     if (selectedScreen == Constants.MY_PROFILE) {
       widgetAppBar = getAppBarMyProfile();
     }
-    print("Test Bar Custom ${selectedScreen}");
+    if (selectedScreen == Constants.SEARCH) {
+      widgetAppBar = getAppBarSearch(context);
+    }
     return widgetAppBar;
   }
 
@@ -82,6 +83,22 @@ class AppBarCustom extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  getAppBarSearch(BuildContext context) {
+    return AppBar(
+      title: Container(
+        height: 40,
+        width: MediaQuery.of(context).size.width,
+        alignment: Alignment.centerLeft,
+        padding: EdgeInsets.only(left: 10),
+        child: const Text("Search", style: TextStyle(color: Colors.white24, fontSize: 18)),
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(53, 53, 53, 0.9),
+          borderRadius: BorderRadius.circular(10)
+        ),
+      ),
     );
   }
 }

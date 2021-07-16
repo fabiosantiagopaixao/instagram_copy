@@ -33,7 +33,7 @@ class _CarouselImagesState extends State<CarouselImages> {
 
   Widget getBox() {
     final children = <Widget>[];
-    children.add(getCarrousell());
+    children.add(getCarousel());
     if (widget.post.images.length > 1) {
       children.add(Positioned(
         top: 80.0,
@@ -52,7 +52,7 @@ class _CarouselImagesState extends State<CarouselImages> {
     return Stack(children: children);
   }
 
-  Widget getCarrousell() {
+  Widget getCarousel() {
     final double height = 400;
     return Container(
       margin: EdgeInsets.only(bottom: 30),
@@ -73,7 +73,7 @@ class _CarouselImagesState extends State<CarouselImages> {
                 }),
             items: widget.post.images
                 .map(
-                    (item) => ImageNetWork(urlImage: item, heigthImage: height))
+                    (item) => ImageNetWork(urlImage: item.url, heightImage: height))
                 .toList(),
           ),
           _getFooter()
@@ -145,7 +145,7 @@ class _CarouselImagesState extends State<CarouselImages> {
     final children = <Widget>[];
     children.add(_getActions());
     if (widget.post.images.length > 1) {
-      children.add(_getStatusSlide());
+      children.add(_getButtonsStatusSlide());
     }
     children.add(_getActionSave());
 
@@ -181,22 +181,24 @@ class _CarouselImagesState extends State<CarouselImages> {
     );
   }
 
-  Widget _getStatusSlide() {
+  Widget _getButtonsStatusSlide() {
+    int index = 0;
     return Container(
       width: MediaQuery.of(context).size.width / 3 - 2,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: widget.post.images.map((url) {
-          int index = widget.post.images.indexOf(url);
-          return Container(
-            width: 6.0,
-            height: 6.0,
+          Container container = Container(
+            width: _currentIndex == index ? 5.0 : index > 5 ? 3.5 : _currentIndex - 6 <= index ? 5.0 : 3.5,
+            height: _currentIndex == index ? 5.0 : index > 5 ? 3.5 : _currentIndex - 6 <= index ? 5.0 : 3.5,
             margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: _currentIndex == index ? Colors.blue : Colors.white54,
             ),
           );
+          index++;
+          return container;
         }).toList(),
       ),
     );
@@ -204,6 +206,7 @@ class _CarouselImagesState extends State<CarouselImages> {
 
   Widget _getActionSave() {
     return Container(
+      padding: EdgeInsets.only(right: 10),
       width: widget.post.images.length == 1
           ? MediaQuery.of(context).size.width / 2 - 3
           : MediaQuery.of(context).size.width / 3 - 2,

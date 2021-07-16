@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_copy/models/story.dart';
 
+// ignore: must_be_immutable
 class StoryList extends StatelessWidget {
   List<Story> storys = [];
 

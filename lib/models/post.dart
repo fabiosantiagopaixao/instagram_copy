@@ -1,14 +1,16 @@
 import 'dart:convert';
 
+import 'package:instagram_copy/models/image.dart';
+
 class Post {
   int id;
   String username;
   String imageUser;
-  List<String> images;
+  List<Image> images;
   String? location;
   String? description;
   int? likes;
-  String datePoted;
+  String datePosted;
 
   Post({
     required this.id,
@@ -18,7 +20,7 @@ class Post {
     this.location,
     this.description,
     this.likes,
-    required this.datePoted,
+    required this.datePosted,
   });
 
   factory Post.fromJson(Map<String, dynamic> parsedJson) {
@@ -26,11 +28,11 @@ class Post {
       id: parsedJson['id'],
       username: parsedJson['username'],
       imageUser: parsedJson['imageUser'],
-      images: parsedJson['mediUrl'],
+      images: Image.listFromString(parsedJson['images']),
       location: parsedJson['location'],
       description: parsedJson['description'],
       likes: parsedJson['likes'],
-      datePoted: parsedJson['description'],
+      datePosted: parsedJson['datePosted'],
     );
   }
 
@@ -51,6 +53,6 @@ class Post {
         'location': location,
         'description': description,
         'likes': likes,
-        'datePoted': datePoted,
+        'datePosted': datePosted,
       };
 }
