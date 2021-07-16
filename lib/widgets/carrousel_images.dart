@@ -1,11 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram_copy/models/post.dart';
 import 'package:instagram_copy/widgets/image_network.dart';
 
 class CarouselImages extends StatefulWidget {
-  const CarouselImages({Key? key, required this.imgList}) : super(key: key);
-  final List<String> imgList;
+  const CarouselImages({Key? key, required this.post}) : super(key: key);
+  final Post post;
 
   @override
   _CarouselImagesState createState() => _CarouselImagesState();
@@ -18,7 +19,7 @@ class _CarouselImagesState extends State<CarouselImages> {
   @override
   void initState() {
     super.initState();
-    _currentLabel = '1/${widget.imgList.length}';
+    _currentLabel = '1/${widget.post.images.length}';
   }
 
   @override
@@ -33,9 +34,9 @@ class _CarouselImagesState extends State<CarouselImages> {
   Widget getBox() {
     final children = <Widget>[];
     children.add(getCarrousell());
-    if (widget.imgList.length > 1) {
+    if (widget.post.images.length > 1) {
       children.add(Positioned(
-        top: 20.0,
+        top: 80.0,
         right: 20,
         child: Container(
           padding: EdgeInsets.fromLTRB(10, 4, 10, 4),
@@ -57,6 +58,7 @@ class _CarouselImagesState extends State<CarouselImages> {
       margin: EdgeInsets.only(bottom: 30),
       child: Column(
         children: [
+          _getHeader(),
           CarouselSlider(
             options: CarouselOptions(
                 height: height,
@@ -66,27 +68,86 @@ class _CarouselImagesState extends State<CarouselImages> {
                 onPageChanged: (index, reason) {
                   setState(() {
                     _currentIndex = index;
-                    _currentLabel = '${index + 1}/${widget.imgList.length}';
+                    _currentLabel = '${index + 1}/${widget.post.images.length}';
                   });
                 }),
-            items: widget.imgList
+            items: widget.post.images
                 .map(
                     (item) => ImageNetWork(urlImage: item, heigthImage: height))
                 .toList(),
           ),
-          getFooter()
+          _getFooter()
         ],
       ),
     );
   }
 
-  Widget getFooter() {
+  _getHeader() {
+    return Row(
+      children: [
+        Container(
+          width: 40.0,
+          margin: EdgeInsets.fromLTRB(5, 10, 0, 10),
+          decoration: new BoxDecoration(
+            color: Colors.black,
+            shape: BoxShape.circle,
+            gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  Colors.white10,
+                  Colors.white30,
+                ]),
+          ),
+          child: CircleAvatar(
+            radius: 20.0,
+            backgroundImage: AssetImage(widget.post.imageUser),
+            backgroundColor: Colors.transparent,
+          ),
+        ),
+        Container(
+          height: 40,
+          width: MediaQuery
+              .of(context)
+              .size
+              .width - 79,
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(5, 5, 0, 0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(widget.post.username,
+                    style: TextStyle(color: Colors.white, fontSize: 14)),
+                Text(widget.post.location ?? '',
+                    style: TextStyle(color: Colors.white, fontSize: 12)),
+              ],
+            ),
+          ),
+        ),
+        Container(
+          height: 40,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Padding(
+                  padding: EdgeInsets.only(right: 10),
+                  child: Icon(Icons.more_vert, color: Colors.white)),
+            ],
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _getFooter() {
     final children = <Widget>[];
-    children.add(getActions());
-    if (widget.imgList.length > 1) {
-      children.add(getStatusSlide());
+    children.add(_getActions());
+    if (widget.post.images.length > 1) {
+      children.add(_getStatusSlide());
     }
-    children.add(getActionSave());
+    children.add(_getActionSave());
 
     return Container(
       padding: EdgeInsets.fromLTRB(5, 10, 0, 10),
@@ -96,9 +157,9 @@ class _CarouselImagesState extends State<CarouselImages> {
     );
   }
 
-  Widget getActions() {
+  Widget _getActions() {
     return Container(
-      width: widget.imgList.length == 1
+      width: widget.post.images.length == 1
           ? MediaQuery.of(context).size.width / 2 - 3
           : MediaQuery.of(context).size.width / 3 - 2,
       child: Row(
@@ -120,13 +181,13 @@ class _CarouselImagesState extends State<CarouselImages> {
     );
   }
 
-  Widget getStatusSlide() {
+  Widget _getStatusSlide() {
     return Container(
       width: MediaQuery.of(context).size.width / 3 - 2,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: widget.imgList.map((url) {
-          int index = widget.imgList.indexOf(url);
+        children: widget.post.images.map((url) {
+          int index = widget.post.images.indexOf(url);
           return Container(
             width: 6.0,
             height: 6.0,
@@ -141,9 +202,9 @@ class _CarouselImagesState extends State<CarouselImages> {
     );
   }
 
-  Widget getActionSave() {
+  Widget _getActionSave() {
     return Container(
-      width: widget.imgList.length == 1
+      width: widget.post.images.length == 1
           ? MediaQuery.of(context).size.width / 2 - 3
           : MediaQuery.of(context).size.width / 3 - 2,
       child: Column(
