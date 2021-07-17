@@ -1,49 +1,66 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram_copy/mock/posts_mock.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:instagram_copy/enum/type_gridiew.dart';
 import 'package:instagram_copy/models/post.dart';
+import 'package:instagram_copy/mock/posts_mock.dart';
 
 import 'icon_position.dart';
 import 'image_network.dart';
 
-class GalleryImages extends StatefulWidget {
-  const GalleryImages({Key? key, this.onTapFunction}) : super(key: key);
+class GalleryImages extends StatelessWidget {
+  const GalleryImages({Key? key, required this.type, this.onTapFunction})
+      : super(key: key);
+
+  final TypeGridView type;
   final Function? onTapFunction;
 
-  @override
-  _GalleryImagesState createState() => _GalleryImagesState();
-}
-
-class _GalleryImagesState extends State<GalleryImages> {
+  // logic: (index % 7 == 0) ? 2 : 1, (index % 7 == 0) ? 2 : 1
   @override
   Widget build(BuildContext context) {
-    List<Post> posts = postsTest;
-
-    return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3, crossAxisSpacing: 1, mainAxisSpacing: 1),
-      padding: EdgeInsets.all(8),
-      shrinkWrap: true,
-      itemCount: posts.length,
-      itemBuilder: (context, index) {
-        return widgetList(posts[index], index);
-      },
+    List<Post> _posts = postsTest;
+    return StaggeredGridView.countBuilder(
+      crossAxisCount: 3,
+      itemCount: _posts.length,
+      itemBuilder: (context, index) => imageCard(_posts[index], index),
+      staggeredTileBuilder: (index) => StaggeredTile.count(
+          type == TypeGridView.DEFAULT ? 1 : getCountWidth(index),
+          type == TypeGridView.DEFAULT ? 1 : getCountHeight(index)),
+      mainAxisSpacing: 2.0,
+      crossAxisSpacing: 2.0,
     );
   }
 
-  Widget widgetList(Post post, int index) {
+  Widget imageCard(Post post, int index) {
     final children = <Widget>[];
-    children.add(GestureDetector(
-      onTap: () => widget.onTapFunction!(index),
-      child: ImageNetWork(
-          urlImage: post.images[0].url,
-          fitImage: BoxFit.fitHeight,
-          heightImage: 200,
-          widthImage: 200),
-    ));
+
+    children.add(
+        GestureDetector(
+            onTap: () => onTapFunction!(index),
+            child: ImageNetWork(
+                urlImage: post.images[0].url,
+                boxImageSearch: true
+            )
+        )
+    );
+
     if (post.images.length > 1) {
-      children.add(IconPosition(icon: Icons.photo_library));
+      children.add(IconPosition(
+          icon: Icons.photo_library,
+          positionLeft: (index % 7 == 0) ? 103.0 * 2 : 103.0));
     }
-    return Stack(children: children);
+
+    return Stack(
+      children: children,
+      fit: StackFit.expand,
+    );
+  }
+
+  int getCountWidth(index) {
+    return (index % 7 == 0) ? 2 : 1;
+  }
+
+  double getCountHeight(index) {
+    return (index % 7 == 0) ? 2 : 1;
   }
 }
