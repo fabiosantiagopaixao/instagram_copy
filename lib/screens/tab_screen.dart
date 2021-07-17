@@ -3,6 +3,11 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:instagram_copy/mock/profile_mock.dart';
 import 'package:instagram_copy/models/contants.dart';
 import 'package:instagram_copy/models/profile.dart';
+import 'package:instagram_copy/screens/tabs/feed_screen.dart';
+import 'package:instagram_copy/screens/tabs/shop_screen.dart';
+import 'package:instagram_copy/screens/tabs/my_profile_screen.dart';
+import 'package:instagram_copy/screens/tabs/reels_screen.dart';
+import 'package:instagram_copy/screens/tabs/search_screen.dart';
 import 'package:instagram_copy/store/screen_store.dart';
 import 'package:provider/provider.dart';
 
@@ -14,12 +19,15 @@ class TabScreen extends StatefulWidget {
 }
 
 class _TabScreenState extends State<TabScreen> {
-  final screenStore = ScreenStore();
+  final _screenStore = ScreenStore();
+  final _pageController = PageController();
 
   _onTap(int tab) {
-    if (screenStore.selectedScreen != tab) {
+    if (_screenStore.selectedScreen != tab) {
       setState(() {
-        screenStore.selectScreen(tab);
+        _screenStore.changeScreen(tab);
+        _pageController.animateToPage(tab,
+            duration: Duration(microseconds: 5000), curve: Curves.linearToEaseOut);
       });
     }
   }
@@ -27,19 +35,21 @@ class _TabScreenState extends State<TabScreen> {
   @override
   Widget build(BuildContext context) {
     return Provider(
-      create: (context) => screenStore,
+      create: (context) => _screenStore,
       child: WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
-          appBar: PreferredSize(
-            preferredSize: Size.fromHeight(60),
-            child: Observer(builder: (_) {
-              return screenStore.currentState.viewAppBar;
-            }),
+          body: PageView(
+            physics: NeverScrollableScrollPhysics(),
+            controller: _pageController,
+            children: [
+              FeedScreen(),
+              SearchScreen(),
+              ReelsScreen(),
+              ShopScreen(),
+              MyProfileScreen()
+            ],
           ),
-          body: SafeArea(child: Observer(builder: (_) {
-            return screenStore.currentState.viewBody;
-          })),
           bottomNavigationBar: Container(
             decoration: BoxDecoration(
                 border: Border(
@@ -74,7 +84,7 @@ class _TabScreenState extends State<TabScreen> {
       height: 40,
       child: Icon(iconData,
           color:
-              index == screenStore.selectedScreen ? Colors.white : Colors.grey,
+              index == _screenStore.selectedScreen ? Colors.white : Colors.grey,
           size: 30.0),
     );
   }
@@ -85,7 +95,7 @@ class _TabScreenState extends State<TabScreen> {
       padding: EdgeInsets.all(2.0),
       decoration: new BoxDecoration(
         color:
-            index == screenStore.selectedScreen ? Colors.white : Colors.black,
+            index == _screenStore.selectedScreen ? Colors.white : Colors.black,
         shape: BoxShape.circle,
       ),
       child: CircleAvatar(
