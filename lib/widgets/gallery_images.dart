@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:instagram_copy/mock/posts_mock.dart';
 import 'package:instagram_copy/models/post.dart';
 
+import 'icon_position.dart';
 import 'image_network.dart';
 
 class GalleryImages extends StatefulWidget {
@@ -41,19 +42,7 @@ class _GalleryImagesState extends State<GalleryImages> {
           widthImage: 200),
     ));
     if (post.images.length > 1) {
-      children.add(Positioned(
-        top: 8.0,
-        left: 103.0,
-        child: Container(
-          height: 18,
-          width: 18,
-          child: Icon(
-            Icons.photo_library,
-            color: Colors.white,
-            size: 18.0,
-          ),
-        ),
-      ));
+      children.add(IconPosition(icon: Icons.photo_library));
     }
     return Stack(children: children);
   }

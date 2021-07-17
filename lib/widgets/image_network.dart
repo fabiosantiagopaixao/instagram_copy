@@ -9,12 +9,14 @@ class ImageNetWork extends StatefulWidget {
       required this.urlImage,
       this.heightImage,
       this.widthImage,
-      this.fitImage})
+      this.fitImage,
+      this.boxImageSearch})
       : super(key: key);
   final String urlImage;
   final double? heightImage;
   final double? widthImage;
   final BoxFit? fitImage;
+  final bool? boxImageSearch;
 
   @override
   _ImageNetWorkState createState() => _ImageNetWorkState();
@@ -32,11 +34,18 @@ class _ImageNetWorkState extends State<ImageNetWork> {
   }
 
   Widget _containerCustom() {
-    return widget.widthImage == null && widget.heightImage == null
-        ? _containerImage()
-        : widget.widthImage == null && widget.heightImage != null
-            ? _containerImageHeight()
-            : _containerImageWidthHeight();
+    if (widget.boxImageSearch != null && widget.boxImageSearch == true) {
+      return _containerSearchImage();
+    }
+    return Container(
+      alignment: Alignment.center,
+      color: Color.fromRGBO(53, 53, 53, 1),
+      child: widget.widthImage == null && widget.heightImage == null
+          ? _containerImage()
+          : widget.widthImage == null && widget.heightImage != null
+              ? _containerImageHeight()
+              : _containerImageWidthHeight(),
+    );
   }
 
   Widget _containerImage() {
@@ -64,6 +73,18 @@ class _ImageNetWorkState extends State<ImageNetWork> {
       height: widget.heightImage,
       width: widget.widthImage,
     );
+  }
+
+  Widget _containerSearchImage() {
+    return ClipRRect(
+        child: Container(
+      color: Color.fromRGBO(53, 53, 53, 1),
+      child: FadeInImage.memoryNetwork(
+        placeholder: kTransparentImage,
+        image: widget.urlImage,
+        fit: widget.fitImage ?? BoxFit.fitHeight,
+      ),
+    ));
   }
 
   Widget _containerLoading() {
