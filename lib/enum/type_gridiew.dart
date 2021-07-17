@@ -1,0 +1,4 @@
+enum TypeGridView {
+  DEFAULT,
+  INSTAGRAM
+}
