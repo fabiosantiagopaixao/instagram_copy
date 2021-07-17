@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram_copy/widgets/instagram_search_grid.dart';
+import 'package:instagram_copy/enum/type_gridiew.dart';
+import 'package:instagram_copy/widgets/gallery_images.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class _SearchScreenState extends State<SearchScreen> {
       appBar: AppBar(
         title: Text("Search"),
       ),
-      body: InstagramSearchGrid(),
+      body: GalleryImages(type: TypeGridView.INSTAGRAM),
     );
   }
 

@@ -2,9 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:instagram_copy/mock/profile_mock.dart';
-import 'package:instagram_copy/models/post.dart';
 import 'package:instagram_copy/models/profile.dart';
-import 'package:instagram_copy/screens/posts_screen.dart';
 import 'package:instagram_copy/widgets/tab_profile.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -17,7 +15,6 @@ class MyProfileScreen extends StatefulWidget {
 
 class _MyProfileScreenState extends State<MyProfileScreen>
     with TickerProviderStateMixin {
-  int _selectedTabIndex = 0;
   Profile profile = profileTest;
   double screenSize = 500;
   List<Widget> tabList = [
@@ -38,23 +35,49 @@ class _MyProfileScreenState extends State<MyProfileScreen>
 
   @override
   Widget build(BuildContext context) {
-    return getScreenMain();
+    return Scaffold(
+      appBar: getAppBarMyProfile(),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            getProfilePhotoData(),
+            getDataProfile(),
+            getButtonEditProfile(),
+            Expanded(child: TabProfile()),
+          ],
+        ),
+      ),
+    );
   }
 
-  getScreenMain() {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+  getAppBarMyProfile() {
+    return AppBar(
+      title: Row(
         children: [
-          getProfilePhotoData(),
-          getDataProfile(),
-          getButtonEditProfile(),
-          Expanded(
-              child: TabProfile()
-          ),
+          Padding(
+              padding: EdgeInsets.only(right: 10),
+              child: Icon(Icons.lock, color: Colors.white)),
+          Text(profile.username),
         ],
       ),
+      actions: <Widget>[
+        ConstrainedBox(
+          constraints: BoxConstraints.tightFor(width: 50, height: 40),
+          child: ElevatedButton(
+            onPressed: () {},
+            child: Icon(Icons.add_box_outlined),
+          ),
+        ),
+        ConstrainedBox(
+          constraints: BoxConstraints.tightFor(width: 50, height: 40),
+          child: ElevatedButton(
+            onPressed: () {},
+            child: Icon(Icons.menu),
+          ),
+        ),
+      ],
     );
   }
 
