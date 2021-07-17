@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instagram_copy/enum/type_gridiew.dart';
 import 'package:instagram_copy/screens/posts_screen.dart';
 import 'package:instagram_copy/widgets/gallery_images.dart';
 
@@ -25,7 +26,8 @@ class _TabProfileState extends State<TabProfile> {
         ),
         body: TabBarView(
           children: [
-            GalleryImages(onTapFunction: openScreenPosts),
+            GalleryImages(
+                type: TypeGridView.DEFAULT, onTapFunction: openScreenPosts),
             getTabViewMarks(),
           ],
         ),
