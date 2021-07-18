@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class ImageNetWork extends StatefulWidget {
@@ -10,12 +11,16 @@ class ImageNetWork extends StatefulWidget {
       this.heightImage,
       this.widthImage,
       this.fitImage,
-      this.boxImageSearch})
+      this.boxImageSearch,
+      this.sizeIconError,
+      this.sizeTextError})
       : super(key: key);
   final String urlImage;
   final double? heightImage;
   final double? widthImage;
   final BoxFit? fitImage;
+  final double? sizeIconError;
+  final double? sizeTextError;
   final bool? boxImageSearch;
 
   @override
@@ -29,7 +34,22 @@ class _ImageNetWorkState extends State<ImageNetWork> {
       imageUrl: widget.urlImage,
       imageBuilder: (context, imageProvider) => _containerCustom(),
       placeholder: (context, url) => _containerLoading(),
-      errorWidget: (context, url, error) => const Icon(Icons.error),
+      errorWidget: (context, url, error) => Container(
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.error,
+              color: Colors.white,
+              size: widget.sizeIconError ?? 80,
+            ),
+            Text("Error loading image!",
+                style: TextStyle(
+                    color: Colors.white, fontSize: widget.sizeTextError ?? 16))
+          ],
+        ),
+      ),
     );
   }
 
@@ -88,9 +108,12 @@ class _ImageNetWorkState extends State<ImageNetWork> {
   }
 
   Widget _containerLoading() {
+    const circularProgressIndicator =
+        CircularProgressIndicator(color: Colors.white);
     return Container(
       alignment: Alignment.center,
-      child: const CircularProgressIndicator(color: Colors.white),
+      child: circularProgressIndicator,
     );
   }
+
 }

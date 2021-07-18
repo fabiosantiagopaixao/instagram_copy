@@ -27,7 +27,7 @@ class _TabProfileState extends State<TabProfile> {
         body: TabBarView(
           children: [
             GalleryImages(
-                type: TypeGridView.DEFAULT, onTapFunction: openScreenPosts),
+                type: TypeGridView.MY_PROFILE, onTapFunction: openScreenPosts),
             getTabViewMarks(),
           ],
         ),

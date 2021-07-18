@@ -24,8 +24,12 @@ class GalleryImages extends StatelessWidget {
       itemCount: _posts.length,
       itemBuilder: (context, index) => imageCard(_posts[index], index),
       staggeredTileBuilder: (index) => StaggeredTile.count(
-          type == TypeGridView.DEFAULT ? 1 : getCountWidth(index),
-          type == TypeGridView.DEFAULT ? 1 : getCountHeight(index)),
+          (type == TypeGridView.DEFAULT || type == TypeGridView.MY_PROFILE)
+              ? 1
+              : getCountWidth(index),
+          (type == TypeGridView.DEFAULT || type == TypeGridView.MY_PROFILE)
+              ? 1
+              : getCountHeight(index)),
       mainAxisSpacing: 2.0,
       crossAxisSpacing: 2.0,
     );
@@ -34,10 +38,20 @@ class GalleryImages extends StatelessWidget {
   Widget imageCard(Post post, int index) {
     final children = <Widget>[];
 
+    var imageNetWork =
+        ImageNetWork(urlImage: post.images[0].url, boxImageSearch: true);
+    if (type == TypeGridView.INSTAGRAM || type == TypeGridView.MY_PROFILE) {
+      imageNetWork = ImageNetWork(
+        urlImage: post.images[0].url,
+        boxImageSearch: true,
+        sizeIconError: 30,
+        sizeTextError: 10,
+      );
+    }
+
     children.add(GestureDetector(
         onTap: () => onTapFunction == null ? {} : onTapFunction!(index),
-        child:
-            ImageNetWork(urlImage: post.images[0].url, boxImageSearch: true)));
+        child: imageNetWork));
 
     if (post.images.length > 1) {
       children.add(IconPosition(
