@@ -18,7 +18,6 @@ class StoryList extends StatelessWidget {
   Widget getListStatus() {
     final children = <Widget>[];
     children.add(getBoxAddStatusPhoto());
-    print("Storys ${this.storys.length}");
     for (var i = 0; i < this.storys.length; i++) {
       Story story = this.storys[i];
       children.add(getBoxPhoto(story));
