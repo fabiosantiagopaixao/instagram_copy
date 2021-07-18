@@ -35,7 +35,7 @@ class GalleryImages extends StatelessWidget {
     final children = <Widget>[];
 
     children.add(GestureDetector(
-        onTap: () => onTapFunction!(index),
+        onTap: () => onTapFunction == null ? {} : onTapFunction!(index),
         child:
             ImageNetWork(urlImage: post.images[0].url, boxImageSearch: true)));
 
