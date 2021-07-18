@@ -34,15 +34,10 @@ class GalleryImages extends StatelessWidget {
   Widget imageCard(Post post, int index) {
     final children = <Widget>[];
 
-    children.add(
-        GestureDetector(
-            onTap: () => onTapFunction!(index),
-            child: ImageNetWork(
-                urlImage: post.images[0].url,
-                boxImageSearch: true
-            )
-        )
-    );
+    children.add(GestureDetector(
+        onTap: () => onTapFunction!(index),
+        child:
+            ImageNetWork(urlImage: post.images[0].url, boxImageSearch: true)));
 
     if (post.images.length > 1) {
       children.add(IconPosition(
@@ -56,11 +51,17 @@ class GalleryImages extends StatelessWidget {
     );
   }
 
-  int getCountWidth(index) {
-    return (index % 7 == 0) ? 2 : 1;
+  int getCountWidth(int index) {
+    if (index % 20 == 11) {
+      return 2;
+    }
+    return 1;
   }
 
-  double getCountHeight(index) {
-    return (index % 7 == 0) ? 2 : 1;
+  double getCountHeight(int index) {
+    if (index % 20 == 2 || ((index % 20) == 11)) {
+      return 2;
+    }
+    return 1;
   }
 }
