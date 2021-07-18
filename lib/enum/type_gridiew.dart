@@ -1,4 +1,5 @@
 enum TypeGridView {
   DEFAULT,
-  INSTAGRAM
+  INSTAGRAM,
+  MY_PROFILE,
 }
