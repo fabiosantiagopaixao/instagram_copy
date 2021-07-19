@@ -33,7 +33,7 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget _buildShimmer() {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Search"),
+        title: getButtonSearch(),
       ),
       body: Shimmer.fromColors(
         baseColor: Color.fromRGBO(64, 64, 64, 1),
@@ -47,9 +47,30 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget _buildScreen() {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Search"),
+        title: getButtonSearch(),
       ),
       body: GalleryImages(type: TypeGridView.INSTAGRAM),
+    );
+  }
+
+  getButtonSearch() {
+    return Container(
+      alignment: Alignment.centerLeft,
+      width: MediaQuery.of(context).size.width,
+      height: 35,
+      padding: EdgeInsets.only(left: 5),
+      decoration: BoxDecoration(
+          color: Color.fromRGBO(52, 52, 52, 1),
+          borderRadius: BorderRadius.circular(5)),
+      child: Stack(
+        children: [
+          Padding(
+              padding: EdgeInsets.only(left: 27),
+              child: Text("Search",
+                  style: TextStyle(color: Color.fromRGBO(96, 96, 96, 1), fontSize: 18))),
+          Icon(Icons.search, size: 20,)
+        ],
+      ),
     );
   }
 }
