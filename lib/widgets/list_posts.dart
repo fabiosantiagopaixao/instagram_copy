@@ -8,7 +8,7 @@ import 'package:instagram_copy/models/profile.dart';
 import 'package:instagram_copy/widgets/story_list.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
-import 'carrousel_images.dart';
+import 'post/carrousel_images.dart';
 
 class ListPosts extends StatefulWidget {
   const ListPosts({Key? key, required this.typePost, this.indexScroll})

@@ -4,7 +4,10 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:instagram_copy/enum/type_gridiew.dart';
 import 'package:instagram_copy/models/post.dart';
 import 'package:instagram_copy/mock/posts_mock.dart';
+import 'package:instagram_copy/widgets/post/dialog_image.dart';
+import 'package:instagram_copy/widgets/post/header_post.dart';
 
+import 'post/carrousel_images.dart';
 import 'icon_position.dart';
 import 'image_network.dart';
 
@@ -22,7 +25,7 @@ class GalleryImages extends StatelessWidget {
     return StaggeredGridView.countBuilder(
       crossAxisCount: 3,
       itemCount: _posts.length,
-      itemBuilder: (context, index) => imageCard(_posts[index], index),
+      itemBuilder: (context, index) => imageCard(context, _posts[index], index),
       staggeredTileBuilder: (index) => StaggeredTile.count(
           (type == TypeGridView.DEFAULT || type == TypeGridView.MY_PROFILE)
               ? 1
@@ -35,7 +38,7 @@ class GalleryImages extends StatelessWidget {
     );
   }
 
-  Widget imageCard(Post post, int index) {
+  Widget imageCard(BuildContext context, Post post, int index) {
     final children = <Widget>[];
 
     var imageNetWork =
@@ -48,20 +51,33 @@ class GalleryImages extends StatelessWidget {
         sizeTextError: 10,
       );
     }
-
+//
     children.add(GestureDetector(
         onTap: () => onTapFunction == null ? {} : onTapFunction!(index),
+        onLongPress: () {
+          _showDialog(context, post);
+        },
         child: imageNetWork));
 
     if (post.images.length > 1) {
       children.add(IconPosition(
           icon: Icons.photo_library,
-          positionLeft: (index % 7 == 0) ? 103.0 * 2 : 103.0));
+          positionLeft: (index % 20 == 11) ? 230 : 103.0));
     }
 
     return Stack(
       children: children,
       fit: StackFit.expand,
+    );
+  }
+
+  Future<void> _showDialog(BuildContext context, Post post) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return DialogImage(post: post);
+      },
     );
   }
 

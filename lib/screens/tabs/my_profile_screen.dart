@@ -37,17 +37,26 @@ class _MyProfileScreenState extends State<MyProfileScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: getAppBarMyProfile(),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            getProfilePhotoData(),
-            getDataProfile(),
-            getButtonEditProfile(),
-            Expanded(child: TabProfile()),
-          ],
-        ),
+      body: SingleChildScrollView(
+        child: getBody(),
+      ),
+    );
+  }
+
+  getBody() {
+    return Container(
+      height: MediaQuery
+          .of(context)
+          .size
+          .height + 150,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          getProfilePhotoData(),
+          getDataProfile(),
+          getButtonEditProfile(),
+          Expanded(child: TabProfile()),
+        ],
       ),
     );
   }
@@ -102,22 +111,22 @@ class _MyProfileScreenState extends State<MyProfileScreen>
           decoration: new BoxDecoration(
             gradient: yourStory
                 ? LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [
-                        Colors.white10,
-                        Colors.white30,
-                      ])
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  Colors.white10,
+                  Colors.white30,
+                ])
                 : LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [
-                        Colors.red,
-                        Colors.deepOrangeAccent,
-                        Colors.orangeAccent,
-                        Colors.red,
-                        Colors.deepOrangeAccent,
-                      ]),
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  Colors.red,
+                  Colors.deepOrangeAccent,
+                  Colors.orangeAccent,
+                  Colors.red,
+                  Colors.deepOrangeAccent,
+                ]),
             color: yourStory ? Colors.black : Colors.blue,
             shape: BoxShape.circle,
           ),
@@ -204,7 +213,10 @@ class _MyProfileScreenState extends State<MyProfileScreen>
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Container(
-                width: MediaQuery.of(context).size.width - 80,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width - 80,
                 height: 35,
                 decoration: BoxDecoration(
                   border: Border.all(
