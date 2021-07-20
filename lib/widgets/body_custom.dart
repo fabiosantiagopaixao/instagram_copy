@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_copy/models/contants.dart';
 import 'package:instagram_copy/models/profile.dart';
-import 'package:instagram_copy/screens/tabs/feed_screen.dart';
-import 'package:instagram_copy/screens/tabs/my_profile_screen.dart';
+import 'package:instagram_copy/screens/tabs/feed_tab.dart';
+import 'package:instagram_copy/screens/tabs/my_profile_tab.dart';
 
 class BodyCustom extends StatelessWidget {
   int type = Constants.FEED;
@@ -16,9 +16,9 @@ class BodyCustom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget widgetBody = FeedScreen();
+    Widget widgetBody = FeedTab();
     if (type == Constants.MY_PROFILE) {
-      widgetBody = MyProfileScreen();
+      widgetBody = MyProfileTab();
     }
     return widgetBody;
   }

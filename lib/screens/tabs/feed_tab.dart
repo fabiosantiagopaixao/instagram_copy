@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:instagram_copy/enum/type_post.dart';
 import 'package:instagram_copy/widgets/list_posts.dart';
 
-class FeedScreen extends StatefulWidget {
+class FeedTab extends StatefulWidget {
   @override
-  _FeedScreenState createState() => _FeedScreenState();
+  _FeedTabState createState() => _FeedTabState();
 }
 
-class _FeedScreenState extends State<FeedScreen> {
+class _FeedTabState extends State<FeedTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

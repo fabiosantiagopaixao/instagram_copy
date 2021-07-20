@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:instagram_copy/mock/profile_mock.dart';
 import 'package:instagram_copy/models/contants.dart';
-import 'package:instagram_copy/models/profile.dart';
-import 'package:instagram_copy/screens/tabs/feed_screen.dart';
-import 'package:instagram_copy/screens/tabs/shop_screen.dart';
-import 'package:instagram_copy/screens/tabs/my_profile_screen.dart';
-import 'package:instagram_copy/screens/tabs/reels_screen.dart';
-import 'package:instagram_copy/screens/tabs/search_screen.dart';
+import 'package:instagram_copy/screens/tabs/feed_tab.dart';
+import 'package:instagram_copy/screens/tabs/search_tab.dart';
+import 'package:instagram_copy/screens/tabs/shop_tab.dart';
+import 'package:instagram_copy/screens/tabs/my_profile_tab.dart';
+import 'package:instagram_copy/screens/tabs/reels_tab.dart';
 import 'package:instagram_copy/store/screen_store.dart';
 import 'package:provider/provider.dart';
 
@@ -43,11 +40,11 @@ class _TabScreenState extends State<TabScreen> {
             physics: NeverScrollableScrollPhysics(),
             controller: _pageController,
             children: [
-              FeedScreen(),
-              SearchScreen(),
-              ReelsScreen(),
-              ShopScreen(),
-              MyProfileScreen()
+              FeedTab(),
+              SearchTab(),
+              ReelsTab(),
+              ShopTab(),
+              MyProfileTab()
             ],
           ),
           bottomNavigationBar: Container(

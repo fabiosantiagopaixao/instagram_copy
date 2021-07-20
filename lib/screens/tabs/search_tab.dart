@@ -1,17 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_copy/enum/type_gridiew.dart';
+import 'package:instagram_copy/screens/search_screen.dart';
 import 'package:instagram_copy/widgets/gallery_images.dart';
 import 'package:shimmer/shimmer.dart';
 
-class SearchScreen extends StatefulWidget {
-  const SearchScreen({Key? key}) : super(key: key);
+class SearchTab extends StatefulWidget {
+  const SearchTab({Key? key}) : super(key: key);
 
   @override
-  _SearchScreenState createState() => _SearchScreenState();
+  _SearchTabState createState() => _SearchTabState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class _SearchTabState extends State<SearchTab> {
   bool _loading = true;
 
   @override
@@ -54,23 +55,39 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   getButtonSearch() {
-    return Container(
-      alignment: Alignment.centerLeft,
-      width: MediaQuery.of(context).size.width,
-      height: 35,
-      padding: EdgeInsets.only(left: 5),
-      decoration: BoxDecoration(
-          color: Color.fromRGBO(52, 52, 52, 1),
-          borderRadius: BorderRadius.circular(5)),
-      child: Stack(
-        children: [
-          Padding(
-              padding: EdgeInsets.only(left: 27),
-              child: Text("Search",
-                  style: TextStyle(color: Color.fromRGBO(96, 96, 96, 1), fontSize: 18))),
-          Icon(Icons.search, size: 20,)
-        ],
+    return GestureDetector(
+      onTap: () => _openScreenPosts(),
+      child: Container(
+        alignment: Alignment.centerLeft,
+        width: MediaQuery.of(context).size.width,
+        height: 35,
+        padding: EdgeInsets.only(left: 5),
+        decoration: BoxDecoration(
+            color: Color.fromRGBO(52, 52, 52, 1),
+            borderRadius: BorderRadius.circular(10)),
+        child: Stack(
+          children: [
+            Padding(
+                padding: EdgeInsets.only(left: 27),
+                child: Text("Search",
+                    style: TextStyle(
+                        color: Color.fromRGBO(96, 96, 96, 1), fontSize: 18))),
+            Icon(
+              Icons.search,
+              size: 20,
+            )
+          ],
+        ),
       ),
     );
+  }
+
+  void _openScreenPosts() {
+    try {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => SearchScreen()));
+    } catch (e) {
+      print(e);
+    }
   }
 }

@@ -73,7 +73,6 @@ class _TabProfileState extends State<TabProfile> {
 
   void openScreenPosts(int indexScroll) {
     try {
-      print("Clicked");
       Navigator.push(
           context,
           MaterialPageRoute(

@@ -6,30 +6,20 @@ import 'package:instagram_copy/models/profile.dart';
 import 'package:instagram_copy/widgets/tab_profile.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class MyProfileScreen extends StatefulWidget {
-  const MyProfileScreen({Key? key}) : super(key: key);
+class MyProfileTab extends StatefulWidget {
+  const MyProfileTab({Key? key}) : super(key: key);
 
   @override
-  _MyProfileScreenState createState() => _MyProfileScreenState();
+  _MyProfileTabState createState() => _MyProfileTabState();
 }
 
-class _MyProfileScreenState extends State<MyProfileScreen>
+class _MyProfileTabState extends State<MyProfileTab>
     with TickerProviderStateMixin {
   Profile profile = profileTest;
   double screenSize = 500;
-  List<Widget> tabList = [
-    new Tab(
-      text: 'Overview',
-    ),
-    new Tab(
-      text: 'Workouts',
-    )
-  ];
-  late TabController _tabController;
 
   @override
   void initState() {
-    _tabController = new TabController(vsync: this, length: tabList.length);
     super.initState();
   }
 

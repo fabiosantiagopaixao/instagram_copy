@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       title: 'Instagram Copy',
       theme: ThemeData(
         primarySwatch: primaryBlack,
-        scaffoldBackgroundColor: primaryBlack,
+        scaffoldBackgroundColor: primaryBlack
       ),
       initialRoute: "/",
       routes: routes,
